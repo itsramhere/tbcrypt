@@ -7,7 +7,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/fs"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -16,14 +15,15 @@ import (
 	"syscall"
 
 	"github.com/ramst/tbcrypt/internal/config"
+	"github.com/ramst/tbcrypt/internal/jobs"
 	"github.com/ramst/tbcrypt/internal/keystore"
 	"github.com/ramst/tbcrypt/internal/pipeline"
-	"github.com/ramst/tbcrypt/internal/tbx"
 	"github.com/ramst/tbcrypt/internal/watcher"
 	"golang.org/x/term"
 )
 
 const usage = `Usage: tbcrypt <command>
+  serve [--port N] [--no-browser] Start the local browser interface (also the default)
   init                         Create a password-protected encryption key
   export <dest>                Back up the keyfile (refuses overwrite)
   passwd                       Change the keyfile password
@@ -208,41 +208,16 @@ func files(cmd string, args []string, dir string, stdin io.Reader, stdout, stder
 		if out == "" {
 			out = filepath.Join(".", "decrypted")
 		}
-		info, err := os.Stat(path)
+		plan, err := jobs.PlanDecrypt(ctx, []string{path}, out)
 		if err != nil {
 			return err
 		}
-		var paths []string
-		if info.IsDir() {
-			err = filepath.WalkDir(path, func(p string, d fs.DirEntry, e error) error {
-				if e != nil {
-					return e
-				}
-				if d.Type().IsRegular() && strings.EqualFold(filepath.Ext(p), ".tbx") {
-					paths = append(paths, p)
-				}
-				return nil
-			})
-			if err != nil {
-				return err
-			}
-		} else {
-			paths = []string{path}
-		}
 		success, failed := 0, 0
-		for _, src := range paths {
-			dest := out
-			if info.IsDir() {
-				rel, err := filepath.Rel(path, filepath.Dir(src))
-				if err != nil {
-					return err
-				}
-				dest = filepath.Join(out, rel)
-			}
-			target, err := tbx.DecryptFile(src, dest, key.Identity())
+		for _, file := range plan {
+			target, err := jobs.DecryptOne(ctx, file, key.Identity())
 			if err != nil {
 				failed++
-				logger.Error("decrypt failed", "source", src, "error", err)
+				logger.Error("decrypt failed", "source", file.Path, "error", err)
 				continue
 			}
 			success++

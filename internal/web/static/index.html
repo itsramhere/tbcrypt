@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>tbcrypt · Private files, ready to upload</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="/">▣ <span>tbcrypt</span></a><span class="local-badge">On your computer</span></header>
+  <main>
+    <div id="error" class="notice error" role="alert" hidden></div>
+    <section id="connect" class="welcome panel" hidden>
+      <p class="eyebrow">LET’S CONNECT</p><h1>Open your private link</h1>
+      <p>Use the complete link printed in the tbcrypt terminal window. It connects this page to your local session.</p>
+    </section>
+    <section id="create" class="welcome panel" hidden>
+      <p class="eyebrow">WELCOME TO TBCRYPT</p><h1>Your files. Your key.</h1>
+      <p>Create a password to protect your encryption key. You’ll use this password whenever you open tbcrypt.</p>
+      <form id="setupForm">
+        <label for="setupPassword">Create a password <span class="hint">At least 12 characters</span></label>
+        <input id="setupPassword" type="password" autocomplete="new-password" minlength="12" required>
+        <label for="setupConfirm">Type it again</label><input id="setupConfirm" type="password" autocomplete="new-password" minlength="12" required>
+        <button class="primary full" type="submit">Create my key</button>
+      </form>
+      <p class="small">Your password stays on this computer. There is no password reset or recovery service.</p>
+    </section>
+    <section id="unlock" class="welcome panel" hidden>
+      <p class="eyebrow">WELCOME BACK</p><h1>Unlock your key</h1>
+      <p>Enter your password to encrypt or restore files.</p>
+      <form id="unlockForm"><label for="unlockPassword">Your password</label><input id="unlockPassword" type="password" autocomplete="current-password" required><button class="primary full" type="submit">Unlock</button></form>
+      <p class="small">Keep your keyfile backup and password safe. You need both to restore your files.</p>
+    </section>
+    <section id="backup" class="welcome panel" hidden>
+      <p class="eyebrow">PLEASE READ BEFORE CONTINUING</p><h1>Your backup matters.</h1>
+      <div class="notice warning"><strong>Losing your keyfile OR password means losing your files forever.</strong><p>There is no recovery option. Back up the keyfile to a USB drive or password manager, and keep your password safe too.</p></div>
+      <p>Don’t leave the keyfile in the folder you upload to TeraBox.</p><p class="small path" id="keyfilePath"></p>
+      <button id="firstBackup" class="primary full" type="button">Save keyfile backup…</button>
+      <label class="check"><input id="backupAcknowledged" type="checkbox"><span>I understand that I need both my keyfile and password to restore my files.</span></label>
+      <button id="continue" class="secondary full" disabled type="button">Continue to my files</button>
+    </section>
+    <section id="workspace" hidden>
+      <div class="intro"><p class="eyebrow">PRIVATE FILES, READY TO UPLOAD</p><h1>What would you like to do?</h1><p>Choose your folders for this job. Your files are processed on this computer.</p></div>
+      <div id="metadataBanner" class="notice warning" hidden>Metadata stripping is off — <a href="https://exiftool.org/" target="_blank" rel="noopener noreferrer">install exiftool</a> to enable it. Files are still encrypted.</div>
+      <div class="tabs" role="tablist" aria-label="Choose an action">
+        <button id="encryptTab" class="tab active" role="tab" aria-selected="true" aria-controls="encryptPanel" type="button"><span class="tab-icon">↑</span><span>Encrypt a folder<small>Prepare files for TeraBox</small></span></button>
+        <button id="decryptTab" class="tab" role="tab" aria-selected="false" aria-controls="decryptPanel" type="button"><span class="tab-icon">↓</span><span>Decrypt files<small>Restore files you downloaded</small></span></button>
+      </div>
+      <div class="job-layout">
+        <div class="panel job-card">
+          <section id="encryptPanel" role="tabpanel" aria-labelledby="encryptTab">
+            <form id="encryptForm">
+              <label for="encryptSource"><span class="step">1</span> Folder to encrypt</label>
+              <div class="path-row"><input id="encryptSource" type="text" placeholder="Choose a folder or paste its full path" required spellcheck="false"><button class="secondary picker" data-target="encryptSource" data-kind="folder" type="button">Choose…</button></div>
+              <label for="encryptOutput"><span class="step">2</span> Where to save encrypted files</label>
+              <div class="path-row"><input id="encryptOutput" type="text" placeholder="Choose a separate output folder" required spellcheck="false"><button class="secondary picker" data-target="encryptOutput" data-kind="folder" type="button">Choose…</button></div>
+              <p class="hint">This is the folder you’ll upload to TeraBox.</p>
+              <div class="originals"><strong>Keep my originals where they are</strong><p>Your original files stay in place by default.</p><label class="check"><input id="moveOriginals" type="checkbox"><span>Move originals into a ‘done’ folder after encrypting</span></label></div>
+              <button id="encryptButton" class="primary full" type="submit">Encrypt</button>
+            </form>
+          </section>
+          <section id="decryptPanel" role="tabpanel" aria-labelledby="decryptTab" hidden>
+            <form id="decryptForm">
+              <label for="decryptSource"><span class="step">1</span> Encrypted files</label>
+              <div class="pick-actions"><button class="secondary picker" data-target="decryptSource" data-kind="files" type="button">Choose files…</button><button class="secondary picker" data-target="decryptSource" data-kind="folder" type="button">Choose folder…</button></div>
+              <textarea id="decryptSource" rows="3" placeholder="Or paste full file or folder paths, one per line" required spellcheck="false"></textarea>
+              <label for="decryptOutput"><span class="step">2</span> Where to save decrypted files</label>
+              <div class="path-row"><input id="decryptOutput" type="text" placeholder="Choose a destination folder" required spellcheck="false"><button class="secondary picker" data-target="decryptOutput" data-kind="folder" type="button">Choose…</button></div>
+              <p class="hint">Restored files are readable. Choose a private folder on this computer.</p>
+              <button id="decryptButton" class="primary full" type="submit">Decrypt</button>
+            </form>
+          </section>
+        </div>
+        <aside class="panel guide"><p class="eyebrow">A LITTLE PEACE OF MIND</p><h2>You’re in control.</h2><ul><li>Files are encrypted before you upload them.</li><li>Encryption is checked before an original is moved.</li><li>Existing files are kept, with numbered names for new copies.</li></ul><div class="divider"></div><strong>Upload the encrypted output only.</strong><p>TeraBox can still see filenames, file sizes and upload times.</p></aside>
+      </div>
+      <section id="progressPanel" class="panel progress-panel" aria-live="polite" hidden>
+        <div class="progress-heading"><h2 id="progressTitle">Working…</h2><button id="cancelJob" class="secondary" type="button">Cancel job</button></div>
+        <progress id="progressBar" max="1" value="0" aria-label="Job progress"></progress>
+        <p id="progressCount"></p><p id="currentFile" class="small path"></p>
+        <p id="resultMessage" class="result path"></p><button id="openOutput" class="secondary" type="button" hidden>Open folder</button>
+        <ul id="fileMessages" class="file-messages"></ul>
+      </section>
+      <footer class="workspace-footer"><button id="lockButton" class="text-button" type="button">Lock</button><button id="changePassword" class="text-button" type="button">Change password</button><button id="exportKey" class="text-button" type="button">Save keyfile backup</button></footer>
+    </section>
+    <p class="terminal-reminder">Keep this terminal window open while using tbcrypt.</p>
+  </main>
+  <dialog id="passwordDialog"><form id="passwordForm"><h2>Change your password</h2><label for="oldPassword">Current password</label><input id="oldPassword" type="password" autocomplete="current-password" required><label for="newPassword">New password</label><input id="newPassword" type="password" autocomplete="new-password" minlength="12" required><label for="confirmNew">Type the new password again</label><input id="confirmNew" type="password" autocomplete="new-password" minlength="12" required><p id="passwordError" class="error-text" role="alert"></p><div class="pick-actions"><button class="primary" type="submit">Save password</button><button id="closePassword" class="secondary" type="button">Cancel</button></div></form></dialog>
+</body>
+</html>

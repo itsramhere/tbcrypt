@@ -17,6 +17,10 @@ type Config struct {
 	DoneDir          string `json:"done_dir"`
 	ExiftoolPath     string `json:"exiftool_path"`
 	StartWithWindows bool   `json:"start_with_windows"`
+	LastEncryptSrc   string `json:"last_encrypt_src,omitempty"`
+	LastEncryptOut   string `json:"last_encrypt_out,omitempty"`
+	LastDecryptSrc   string `json:"last_decrypt_src,omitempty"`
+	LastDecryptOut   string `json:"last_decrypt_out,omitempty"`
 }
 
 // DefaultDir returns TBCRYPT_HOME or the user's tbcrypt configuration directory.

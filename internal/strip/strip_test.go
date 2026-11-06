@@ -9,9 +9,11 @@ import (
 	"image"
 	"image/png"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/ramst/tbcrypt/internal/config"
 )
@@ -116,6 +118,15 @@ func TestExiftool(t *testing.T) {
 	tool := config.FindExiftool(config.Config{})
 	if tool == "" {
 		t.Skip("exiftool not installed")
+	}
+	// A PATH entry can exist while its external interpreter is unavailable or
+	// blocked by the test sandbox. Distinguish that from a stripping regression.
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	version := exec.CommandContext(ctx, tool, "-ver")
+	hideWindow(version)
+	if output, err := version.CombinedOutput(); err != nil {
+		t.Skipf("exiftool cannot run in this environment: %v: %s", err, output)
 	}
 	// A one-pixel PNG with a removable tEXt chunk, generated without external tools.
 	var encoded bytes.Buffer

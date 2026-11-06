@@ -2,6 +2,7 @@
 package tbx
 
 import (
+	"context"
 	"encoding/binary"
 	"encoding/json"
 	"errors"
@@ -223,12 +224,21 @@ func EncryptUnique(dstPath, name string, size int64, src io.Reader, r age.Recipi
 
 // DecryptFile publishes verified plaintext at a sanitized, unique output path.
 func DecryptFile(srcPath, outDir string, id age.Identity) (outPath string, err error) {
+	return DecryptFileContext(context.Background(), srcPath, outDir, id)
+}
+
+// DecryptFileContext cancels between reads and removes owned partial output.
+func DecryptFileContext(ctx context.Context, srcPath, outDir string, id age.Identity) (outPath string, err error) {
+	if err := ctx.Err(); err != nil {
+		return "", err
+	}
 	in, err := os.Open(srcPath)
 	if err != nil {
 		return "", err
 	}
 	defer in.Close()
-	h, err := ReadHeader(in, id)
+	reader := fsutil.Reader{Context: ctx, Source: in}
+	h, err := ReadHeader(reader, id)
 	if err != nil {
 		return "", err
 	}
@@ -253,13 +263,16 @@ func DecryptFile(srcPath, outDir string, id age.Identity) (outPath string, err e
 		return outPath, err
 	}
 	defer func() { f.Close(); os.Remove(f.Name()) }()
-	if _, err = Decrypt(f, in, id); err != nil {
+	if _, err = Decrypt(f, reader, id); err != nil {
 		return outPath, err
 	}
 	if err = f.Sync(); err != nil {
 		return outPath, err
 	}
 	if err = f.Close(); err != nil {
+		return outPath, err
+	}
+	if err = ctx.Err(); err != nil {
 		return outPath, err
 	}
 	err = os.Rename(f.Name(), outPath)
