@@ -1,0 +1,5 @@
+tbcrypt.exe
+*.part
+/decrypted/
+/.cache/
+/dist/
