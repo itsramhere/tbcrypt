@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ramst/tbcrypt/internal/config"
+	"github.com/itsramhere/tbcrypt/internal/config"
 )
 
 // Reuse this test executable as a fake exiftool, without a shell or compiler.

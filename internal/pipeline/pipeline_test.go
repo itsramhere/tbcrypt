@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"filippo.io/age"
-	"github.com/ramst/tbcrypt/internal/tbx"
+	"github.com/itsramhere/tbcrypt/internal/tbx"
 )
 
 func setup(t *testing.T) (Options, *age.X25519Identity, string, []byte) {

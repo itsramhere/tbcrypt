@@ -16,9 +16,9 @@ import (
 	"strings"
 
 	"filippo.io/age"
-	"github.com/ramst/tbcrypt/internal/fsutil"
-	"github.com/ramst/tbcrypt/internal/strip"
-	"github.com/ramst/tbcrypt/internal/tbx"
+	"github.com/itsramhere/tbcrypt/internal/fsutil"
+	"github.com/itsramhere/tbcrypt/internal/strip"
+	"github.com/itsramhere/tbcrypt/internal/tbx"
 )
 
 // Options supplies paths, keys and an optional logger; it has no global state.

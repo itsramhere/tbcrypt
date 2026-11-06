@@ -14,11 +14,11 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/ramst/tbcrypt/internal/config"
-	"github.com/ramst/tbcrypt/internal/jobs"
-	"github.com/ramst/tbcrypt/internal/keystore"
-	"github.com/ramst/tbcrypt/internal/pipeline"
-	"github.com/ramst/tbcrypt/internal/watcher"
+	"github.com/itsramhere/tbcrypt/internal/config"
+	"github.com/itsramhere/tbcrypt/internal/jobs"
+	"github.com/itsramhere/tbcrypt/internal/keystore"
+	"github.com/itsramhere/tbcrypt/internal/pipeline"
+	"github.com/itsramhere/tbcrypt/internal/watcher"
 	"golang.org/x/term"
 )
 

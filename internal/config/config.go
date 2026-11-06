@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/ramst/tbcrypt/internal/fsutil"
+	"github.com/itsramhere/tbcrypt/internal/fsutil"
 )
 
 // Config contains reusable directory and application settings.

@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ramst/tbcrypt/internal/keystore"
-	"github.com/ramst/tbcrypt/internal/pipeline"
-	"github.com/ramst/tbcrypt/internal/tbx"
+	"github.com/itsramhere/tbcrypt/internal/keystore"
+	"github.com/itsramhere/tbcrypt/internal/pipeline"
+	"github.com/itsramhere/tbcrypt/internal/tbx"
 )
 
 func waitFor(t *testing.T, description string, condition func() bool) {

@@ -15,7 +15,7 @@ import (
 	"unicode"
 
 	"filippo.io/age"
-	"github.com/ramst/tbcrypt/internal/fsutil"
+	"github.com/itsramhere/tbcrypt/internal/fsutil"
 )
 
 const magic = "TBX1\n"

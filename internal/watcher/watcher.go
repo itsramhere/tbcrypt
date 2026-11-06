@@ -15,7 +15,7 @@ import (
 	"time"
 
 	"github.com/fsnotify/fsnotify"
-	"github.com/ramst/tbcrypt/internal/pipeline"
+	"github.com/itsramhere/tbcrypt/internal/pipeline"
 )
 
 // Event kinds describe completed work, terminal failures and non-fatal warnings.

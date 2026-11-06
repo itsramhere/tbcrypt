@@ -1,4 +1,4 @@
-module github.com/ramst/tbcrypt
+module github.com/itsramhere/tbcrypt
 
 go 1.26.3
 

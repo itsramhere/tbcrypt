@@ -11,9 +11,9 @@ import (
 	"strconv"
 	"syscall"
 
-	"github.com/ramst/tbcrypt/internal/cli"
-	"github.com/ramst/tbcrypt/internal/config"
-	"github.com/ramst/tbcrypt/internal/web"
+	"github.com/itsramhere/tbcrypt/internal/cli"
+	"github.com/itsramhere/tbcrypt/internal/config"
+	"github.com/itsramhere/tbcrypt/internal/web"
 )
 
 func main() { os.Exit(run()) }

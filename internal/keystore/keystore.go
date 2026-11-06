@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 
 	"filippo.io/age"
-	"github.com/ramst/tbcrypt/internal/fsutil"
+	"github.com/itsramhere/tbcrypt/internal/fsutil"
 	"golang.org/x/crypto/argon2"
 	"golang.org/x/crypto/nacl/secretbox"
 )

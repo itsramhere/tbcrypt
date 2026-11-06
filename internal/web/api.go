@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ramst/tbcrypt/internal/config"
-	"github.com/ramst/tbcrypt/internal/keystore"
+	"github.com/itsramhere/tbcrypt/internal/config"
+	"github.com/itsramhere/tbcrypt/internal/keystore"
 )
 
 func (s *server) api(w http.ResponseWriter, r *http.Request) {

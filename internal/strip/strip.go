@@ -9,7 +9,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/ramst/tbcrypt/internal/fsutil"
+	"github.com/itsramhere/tbcrypt/internal/fsutil"
 )
 
 // Warning reports unavailable metadata removal; CleanPath remains usable.

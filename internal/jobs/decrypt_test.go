@@ -5,7 +5,7 @@ import (
 	"context"
 	"errors"
 	"filippo.io/age"
-	"github.com/ramst/tbcrypt/internal/tbx"
+	"github.com/itsramhere/tbcrypt/internal/tbx"
 	"os"
 	"path/filepath"
 	"testing"

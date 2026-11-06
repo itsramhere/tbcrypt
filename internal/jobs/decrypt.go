@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"filippo.io/age"
-	"github.com/ramst/tbcrypt/internal/tbx"
+	"github.com/itsramhere/tbcrypt/internal/tbx"
 )
 
 // DecryptFile describes one input and its mirrored destination directory.
